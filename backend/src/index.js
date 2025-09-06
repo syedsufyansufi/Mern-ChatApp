@@ -2,11 +2,11 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import path from "path";
 import { connectDB } from "./config/db.js";
+import { app, server } from "./config/socket.js";
 import authRoutes from "./routes/authRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
-import { app, server } from "./config/socket.js";
-import path from "path";
 
 dotenv.config();
 
@@ -31,9 +31,9 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(_dirname, "../frontend/dist")));
 }
 
-app.get("*",(req,res)=>{
-  res.sendFile(path.join(_dirname,"../frontend","dist","index.html"))
-})
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(_dirname, "../frontend", "dist", "index.html"));
+});
 
 server.listen(PORT, () => {
   console.log(`Server Running At http://localhost:${PORT}`);
